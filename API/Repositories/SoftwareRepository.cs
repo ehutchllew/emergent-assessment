@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using API.Models;
 using System.Linq;
+using System;
 
 namespace API.Repositories
 {
@@ -61,6 +62,11 @@ namespace API.Repositories
         public IEnumerable<Software> GetSoftwareByName(string name)
         {
             return this.GetAllSoftware().Where(soft => soft.Name.ToLower() == name.ToLower());
+        }
+
+        public IEnumerable<Software> GetSoftwareByVersion(Func<string, bool> callback)
+        {
+            return this.GetAllSoftware().Where(soft => callback(soft.Version));
         }
     }
 }

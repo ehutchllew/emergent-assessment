@@ -17,20 +17,20 @@ export async function baseService(req: Partial<Request>, options: any) {
 
     if (options) {
         const searchParams = new URLSearchParams({});
-        if (options.filter) {
-            const hashedFilter = btoa(JSON.stringify(options.filter));
-            searchParams.set("filter", hashedFilter);
+        if (options.version) {
+            searchParams.set("version", options.version);
         }
 
-        if (options.sort) {
-            const hashedSort = btoa(JSON.stringify(options.sort));
-            searchParams.set("sort", hashedSort);
+        if (options.name) {
+            searchParams.set("name", options.name);
         }
 
         endpoint.search = searchParams.toString();
     }
 
-    const rawResponse = await fetch(endpoint as any, fetchInit);
+    console.log(endpoint);
+
+    const rawResponse = await fetch(endpoint.href, fetchInit);
 
     const parsedResponse = await rawResponse.json();
 

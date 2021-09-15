@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using API.Models;
@@ -17,21 +18,10 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Software>> GetAllSoftware()
+        public ActionResult<IEnumerable<Software>> GetAllSoftware([FromQuery] string version, [FromQuery] string name)
         {
-            var allSoftware = this._softwareService.GetAllSoftware();
+            var allSoftware = this._softwareService.GetAllSoftware(version, name);
             return Ok(allSoftware);
-        }
-
-        [HttpGet("{name}")]
-        public ActionResult<IEnumerable<Software>> GetSoftwareByName([FromRoute] string name)
-        {
-            var filteredSoftware = this._softwareService.GetSoftwareByName(name);
-            if (filteredSoftware.Count() == 0)
-            {
-                return NotFound();
-            }
-            return Ok(filteredSoftware);
         }
     }
 }

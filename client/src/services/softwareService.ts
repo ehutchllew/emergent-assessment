@@ -1,16 +1,23 @@
 import { baseService } from "./baseService";
 
-export async function softwareService(name?: string, options?: any) {
+export async function softwareService(value?: string, options?: any) {
     const method = "GET";
-    let url = "api/software";
+    const url = "api/software";
 
-    if (name) {
-        url += `/${name}`;
+    const valueList = value?.split(".");
+    const requestOptions = { ...options };
+
+    const isValueVersion = Number.parseInt(valueList?.[0]!);
+
+    if (isNaN(isValueVersion)) {
+        requestOptions.name = value;
+    } else {
+        requestOptions.version = value;
     }
 
     const requestInit: Partial<Request> = {
         method,
         url,
     };
-    return baseService(requestInit, options);
+    return baseService(requestInit, requestOptions);
 }
