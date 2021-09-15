@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import { Form } from "./common/Form";
+import { CELL_TYPE, CommonList } from "./common/list/CommonList";
+import { softwareService } from "./services/softwareService";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [listOfSoftware, setListOfSoftware] = useState([]);
+
+    async function onSubmitForm(value: string): Promise<void> {
+        try {
+            const softwareList = await softwareService(value);
+            setListOfSoftware(softwareList);
+        } catch (e) {
+            setListOfSoftware([]);
+        }
+    }
+
+    return (
+        <div className="App">
+            <header className="App-header">
+                <section className="App-content-container">
+                    <h1 className="App-title">Software Searcher</h1>
+                    <Form
+                        buttonLabel="Feeling Lucky"
+                        onSubmitForm={onSubmitForm}
+                    />
+                </section>
+                {listOfSoftware.length ? (
+                    <CommonList
+                        cells={listOfSoftware.map((software: any) => ({
+                            type: CELL_TYPE.CELL_LABEL_VALUE,
+                            label: software.name,
+                            value: software.version,
+                        }))}
+                    />
+                ) : (
+                    <h2>No software found for that version</h2>
+                )}
+            </header>
+        </div>
+    );
 }
 
 export default App;

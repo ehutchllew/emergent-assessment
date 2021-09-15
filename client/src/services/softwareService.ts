@@ -5,7 +5,7 @@ export async function softwareService(name?: string, options?: any) {
     let url = "api/software";
 
     if (name) {
-        url.concat(`/${name}`);
+        url += `/${name}`;
     }
 
     const requestInit: Partial<Request> = {

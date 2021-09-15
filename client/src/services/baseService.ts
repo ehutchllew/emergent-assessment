@@ -1,4 +1,4 @@
-export async function baseService(req: Partial<Request>, options) {
+export async function baseService(req: Partial<Request>, options: any) {
     const DEFAULT_HEADERS = {
         "Content-Type": "application/json",
     };
@@ -8,7 +8,7 @@ export async function baseService(req: Partial<Request>, options) {
     const fetchInit: RequestInit = {
         method,
         headers,
-        credentials: "include",
+        credentials: "omit",
     };
 
     if (body) {

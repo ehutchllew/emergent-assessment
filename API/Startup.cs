@@ -11,6 +11,7 @@ namespace API
 {
     public class Startup
     {
+        private readonly string _allowedOrigins = "_allowedOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,6 +31,14 @@ namespace API
 
             services.AddScoped<SoftwareRepository>();
             services.AddScoped<SoftwareService>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: this._allowedOrigins, builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000").AllowAnyHeader();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +54,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(this._allowedOrigins);
 
             app.UseAuthorization();
 
