@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using emergent_assessment.Repositories;
+using emergent_assessment.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +34,9 @@ namespace emergent_assessment
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "emergent_assessment", Version = "v1" });
             });
+
+            services.AddScoped<SoftwareRepository>();
+            services.AddScoped<SoftwareService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
